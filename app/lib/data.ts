@@ -184,7 +184,6 @@ export async function fetchInvoiceById(id: string) {
 }
 
 export async function fetchCustomers() {
-  noStore()
 
   try {
     const data = await sql<CustomerField>`
@@ -239,7 +238,6 @@ export async function fetchFilteredCustomers(query: string) {
 }
 
 export async function getUser(email: string) {
-  noStore()
 
   try {
     const user = await sql`SELECT * FROM users WHERE email=${email}`;
