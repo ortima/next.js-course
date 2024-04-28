@@ -5,17 +5,16 @@ import {
   InvoiceForm,
   InvoicesTable,
   LatestInvoiceRaw,
-  User,
   Revenue,
+  User,
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
 
-
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
-  noStore()
+  noStore();
 
   try {
     // Artificially delay a response for demo purposes.
@@ -36,7 +35,7 @@ export async function fetchRevenue() {
 }
 
 export async function fetchLatestInvoices() {
-  noStore()
+  noStore();
 
   try {
     const data = await sql<LatestInvoiceRaw>`
@@ -58,7 +57,7 @@ export async function fetchLatestInvoices() {
 }
 
 export async function fetchCardData() {
-  noStore()
+  noStore();
 
   try {
     // You can probably combine these into a single SQL query
@@ -96,11 +95,10 @@ export async function fetchCardData() {
 
 const ITEMS_PER_PAGE = 6;
 export async function fetchFilteredInvoices(
-
   query: string,
   currentPage: number,
 ) {
-  noStore()
+  noStore();
 
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
@@ -134,7 +132,7 @@ export async function fetchFilteredInvoices(
 }
 
 export async function fetchInvoicesPages(query: string) {
-  noStore()
+  noStore();
 
   try {
     const count = await sql`SELECT COUNT(*)
@@ -157,7 +155,7 @@ export async function fetchInvoicesPages(query: string) {
 }
 
 export async function fetchInvoiceById(id: string) {
-  noStore()
+  noStore();
 
   try {
     const data = await sql<InvoiceForm>`
@@ -175,6 +173,7 @@ export async function fetchInvoiceById(id: string) {
       // Convert amount from cents to dollars
       amount: invoice.amount / 100,
     }));
+    console.log(invoice); // Invoice is an empty array []
 
     return invoice[0];
   } catch (error) {
@@ -184,7 +183,6 @@ export async function fetchInvoiceById(id: string) {
 }
 
 export async function fetchCustomers() {
-
   try {
     const data = await sql<CustomerField>`
       SELECT
@@ -203,7 +201,7 @@ export async function fetchCustomers() {
 }
 
 export async function fetchFilteredCustomers(query: string) {
-  noStore()
+  noStore();
 
   try {
     const data = await sql<CustomersTableType>`
@@ -238,7 +236,6 @@ export async function fetchFilteredCustomers(query: string) {
 }
 
 export async function getUser(email: string) {
-
   try {
     const user = await sql`SELECT * FROM users WHERE email=${email}`;
     return user.rows[0] as User;
